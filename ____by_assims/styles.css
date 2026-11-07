@@ -1,0 +1,267 @@
+/* Reset & layout */
+:root{
+  --bg:#000;
+  --text:#dfe6e9;
+  --muted:#9aa4ad;
+  --corner-padding:20px; /* increased padding for larger feel */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body,#app{height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
+}
+
+/* Stages cover the whole viewport */
+.stage{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  z-index:1;
+}
+
+/* Hidden helper */
+.hidden{display:none}
+
+/* Splash image — made larger so it fills more of the viewport */
+#splash-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  transform:scale(1.02);
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  border-radius:10px;
+}
+
+/* Boot stage: show corner text top-left */
+#boot {
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding:var(--corner-padding);
+  background:linear-gradient(180deg, #000 0%, #020202 100%);
+}
+
+/* Boot text container */
+#boot-text{
+  color:var(--text);
+  font-family:monospace;
+  font-size:18px; /* larger boot text */
+  line-height:1.6;
+  text-shadow:0 1px 0 rgba(0,0,0,0.6);
+  max-width:96%;
+}
+
+/* Each line style */
+.boot-line{
+  white-space:pre;
+  opacity:0;
+  transform:translateY(-4px);
+  transition:opacity 220ms linear, transform 220ms linear;
+}
+
+/* Visible class toggles in via JS */
+.boot-line.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Gigabyte-style UEFI setup */
+#bios{z-index:50;background:radial-gradient(ellipse at 50% 0%,#244b76 0%,#102744 48%,#071426 100%);padding:3vh 3vw}
+#bios-panel{width:min(1180px,100%);height:min(760px,94vh);min-height:0;padding:0;display:flex;flex-direction:column;overflow:hidden;color:#f0f4f7;background:linear-gradient(180deg,#193c63,#0a1c32);border:1px solid #6487a7;box-shadow:0 12px 44px #0009;font:14px/1.35 monospace}
+#bios-header{height:58px;flex:none;display:flex;align-items:center;gap:18px;padding:0 22px;background:linear-gradient(180deg,#182a3d,#0e1e31);border-bottom:1px solid #7691a8}
+.bios-brand{flex:1;font:bold 20px/1 monospace;color:#f2f4f5;letter-spacing:0}
+.bios-brand span{color:#d8e0e8;font-size:14px;font-weight:400}
+.bios-language{color:#fff;font-size:12px}.bios-language span{margin-left:8px;color:#9eb4c9}
+#kbd-toggle{background:#23496b;border:1px solid #6f91ad;border-radius:2px;color:#fff;padding:6px 9px;cursor:pointer}
+.bios-tabs{display:flex;flex:none;overflow-x:auto;background:linear-gradient(180deg,#405f7e,#203e5d);border-bottom:2px solid #b5c3d0}
+.bios-tab{position:relative;flex:1;min-width:max-content;padding:12px 16px;border:0;border-right:1px solid #718ba3;background:transparent;color:#e4ebf1;font:bold 13px monospace;cursor:pointer}
+.bios-tab.active{background:linear-gradient(180deg,#f8cf52,#c78612);color:#15283a}
+.bios-main{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;flex:1;min-height:0;padding:22px 24px 18px;overflow:hidden}
+.bios-page{display:flex;flex-direction:column;gap:5px;min-width:0;min-height:0;overflow:auto}
+.bios-page[hidden]{display:none}
+.bios-page h2{flex:none;margin:0 0 8px;padding:0 0 9px;border-bottom:1px solid #7890a7;color:#e3edf5;font:bold 14px monospace}
+.bios-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:30px;padding:5px 12px;border:1px solid transparent;border-radius:0;background:transparent;color:#f2f5f7;text-align:left;font:13px monospace;cursor:pointer}
+.bios-setting strong{flex:none;min-width:120px;padding:2px 8px;background:#3575a2;color:#fff;font:12px monospace}
+.bios-setting.selected,.bios-setting:hover{background:#1494c3;border-color:#76d8f3;color:#071b2b}
+.bios-setting.selected strong,.bios-setting:hover strong{background:#dcebf3;color:#0b2940}
+.boot-setting strong{min-width:146px}
+.bios-divider{height:1px;margin:9px 0;background:#6c879f}
+#bios-help{align-self:stretch;padding:10px 12px;border-left:1px solid #6f89a1;color:#e0e8ee;font:12px/1.5 monospace}
+#bios-help h3{margin:0 0 12px;color:#fff;font:bold 13px monospace}
+#bios-help p{margin:0;color:#d1dce5}
+.bios-note{margin-top:16px;padding:10px 12px;color:#b8c8d6;border-top:1px solid #526f89;font-size:12px}
+.bios-range-label{display:flex;justify-content:space-between;gap:12px;margin:12px 0 6px;padding:10px 12px;background:#13304c;color:#ecf2f6}
+.bios-range-label strong{color:#a7d7f0;font-weight:400}
+.bios-page input[type="range"]{width:100%;accent-color:#58bce0}
+.bios-exit-page{max-width:620px}
+.bios-action{min-height:36px;padding:8px 12px;border:1px solid #6886a1;background:#173654;color:#f0f4f7;text-align:left;font:13px monospace;cursor:pointer}
+.bios-action:hover,.bios-action.primary{background:#1685ad;border-color:#68cde7;color:#fff}
+#bios-footer{display:flex;flex:none;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:9px 18px;background:#132a41;border-top:1px solid #7892a8;color:#d8e3ec;font:11px monospace}
+.muted{opacity:.9}
+
+@media(max-width:680px){
+  #bios{padding:0}
+  #bios-panel{width:100%;height:100%;border:0}
+  #bios-header{height:48px;padding:0 12px}
+  .bios-brand{font-size:16px}.bios-brand span{font-size:11px}
+  .bios-tab{padding:10px 12px;font-size:12px}
+  .bios-main{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:10px;padding:14px 12px 10px}
+  #bios-help{max-height:76px;padding:8px 10px;border-left:0;border-top:1px solid #6f89a1}
+  #bios-help h3{margin-bottom:4px}
+  .bios-setting{font-size:12px;padding:5px 7px}
+  .bios-setting strong{min-width:100px}
+  #bios-footer{justify-content:flex-start;padding:8px 10px;font-size:10px}
+}
+
+/* Virtual keyboard styles */
+.virtual-kbd{
+  position:fixed;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  background:#f7f7f7;
+  border:1px solid #e6e6e6;
+  border-radius:12px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:120;
+  box-shadow:0 8px 24px rgba(0,0,0,0.14);
+  touch-action: manipulation;
+}
+.virtual-kbd.hidden{display:none}
+.kbd-row{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+}
+.kbd-key{
+  min-width:56px; /* larger keys */
+  height:56px;
+  padding:10px 12px;
+  background:#fff;
+  border:1px solid #eaeaea;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:monospace;
+  font-size:17px; /* larger label */
+  color:#111;
+  user-select:none;
+  touch-action: manipulation;
+  cursor:pointer;
+}
+.kbd-key.wide{min-width:110px}
+.kbd-key:active{transform:translateY(1px)}
+#kbd-toggle{
+  margin-left:12px;
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-size:17px;
+}
+#kbd-toggle[aria-pressed="true"]{
+  background:#e9f2ff;
+  border-color:#cfe6ff;
+}
+
+/* Iframe fills viewport */
+#runtime{background:#000}
+#site-frame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+/* Corner Restart Button (made tiny and unobtrusive) */
+#restart-btn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:200;
+  background:#fff;
+  color:#111;
+  border:1px solid #e6e6e6;
+  border-radius:8px;
+  padding:4px 6px; /* very compact */
+  font-family:monospace;
+  font-size:12px; /* tiny label */
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  min-height:32px; /* compact touch size */
+  min-width:64px; /* compact width */
+  height:32px;
+  width:64px;
+  display:inline-flex;
+  gap:6px;
+  align-items:center;
+  justify-content:center;
+  touch-action:manipulation;
+  opacity:0.95;
+}
+#restart-btn:active{transform:translateY(1px) scale(0.995)}
+#restart-btn[disabled]{opacity:0.5;pointer-events:none}
+
+/* Small reveal control for mobile when restart is hidden */
+#restart-reveal{
+  position:fixed;
+  bottom:12px;
+  left:12px;
+  z-index:210;
+  background:#fff;
+  color:#111;
+  border:1px solid #e6e6e6;
+  border-radius:10px;
+  padding:8px 10px;
+  font-family:monospace;
+  font-size:14px;
+  height:36px;
+  min-width:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  touch-action:manipulation;
+}
+#restart-reveal.hidden{display:none}
+
+/* Small-screen adjustments */
+@media (max-width:420px){
+  #boot-text{font-size:16px}
+  #splash-img{max-width:100%}
+  /* Make restart button compact on narrow screens */
+  #restart-btn{
+    padding:8px 10px;
+    font-size:13px;
+    top:10px;
+    right:10px;
+    min-height:42px;
+    min-width:88px;
+  }
+  /* keyboard rows tighter on very small screens */
+  .kbd-key{min-width:50px;height:50px;font-size:16px}
+  .kbd-key.wide{min-width:96px}
+}
+/* Real in-browser x86 virtual machine screen */
+#runtime{background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 0 28px}
+#screen_container{position:relative;display:flex;align-items:center;justify-content:center;flex:1;width:100%;height:100%;min-height:0;overflow:auto;outline:none;background:#000}
+#screen_container canvas{max-width:100%;max-height:100%;image-rendering:pixelated}
+#screen_container>div{color:#ddd;max-width:100%;max-height:100%;overflow:auto}
+#vm-status{position:absolute;z-index:4;top:14px;left:18px;color:#9aa4ad;font:12px monospace}
+#vm-bottom{position:absolute;bottom:0;left:0;right:0;height:26px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;background:#111;color:#9aa4ad;font:11px monospace}
+#runtime:fullscreen{padding-top:45px}
+#runtime:fullscreen #screen_container{width:100vw;height:calc(100vh - 72px)}

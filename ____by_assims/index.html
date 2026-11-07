@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>VirtualBox</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Fullscreen container -->
+  <div id="app">
+    <!-- Corner restart button -->
+    <button id="restart-btn" title="Restart" aria-label="Restart">⟲ Restart</button>
+    <!-- Reveal control shown on mobile after hiding restart; kept minimal and accessible -->
+    <button id="restart-reveal" class="hidden" title="Show Restart" aria-label="Show Restart">⤴︎</button>
+    <!-- Splash screen (shows provided asset) -->
+    <div id="splash" class="stage" tabindex="0">
+      <img src="/vbox-new-splash.webp" id="splash-img" alt="VirtualBox Splash">
+    </div>
+
+    <!-- BIOS screen (shown if F12 pressed during splash) -->
+    <div id="bios" class="stage hidden" aria-hidden="true">
+      <div id="bios-panel" role="dialog" aria-label="UEFI BIOS Setup">
+        <header id="bios-header">
+          <div class="bios-brand">GIGABYTE <span>UEFI DualBIOS</span></div>
+          <div class="bios-language">English <span>⌄</span></div>
+          <button id="kbd-toggle" aria-pressed="false" title="Virtual Keyboard">⌨︎</button>
+        </header>
+
+        <nav class="bios-tabs" aria-label="BIOS sections">
+          <button class="bios-tab" data-page="mit">M.I.T.</button>
+          <button class="bios-tab" data-page="system">System</button>
+          <button class="bios-tab active" data-page="bios-features">BIOS Features</button>
+          <button class="bios-tab" data-page="peripherals">Peripherals</button>
+          <button class="bios-tab" data-page="power">Power Management</button>
+          <button class="bios-tab" data-page="save-exit">Save &amp; Exit</button>
+        </nav>
+
+        <main class="bios-main">
+          <section class="bios-page" data-page-content="mit" hidden>
+            <h2>Advanced CPU Core Settings</h2>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Enables processor virtualization extensions for virtual machines."><span>Intel Virtualization Technology</span><strong>Enabled</strong></button>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Enables I/O virtualization support for compatible devices."><span>VT-d</span><strong>Disabled</strong></button>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Controls the processor CPUID maximum value limit."><span>Limit CPUID Maximum</span><strong>Disabled</strong></button>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Enables processor execute-disable protection."><span>Execute Disable Bit</span><strong>Enabled</strong></button>
+          </section>
+
+          <section class="bios-page" data-page-content="system" hidden>
+            <h2>System Information</h2>
+            <button class="bios-setting" data-options="English|繁體中文" data-help="Select the language used by this setup screen."><span>System Language</span><strong>English</strong></button>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Sets the keyboard state after startup."><span>Bootup NumLock State</span><strong>Enabled</strong></button>
+            <div class="bios-note">GIGABYTE UEFI DualBIOS Setup</div>
+          </section>
+
+          <section class="bios-page active" data-page-content="bios-features">
+            <h2>Boot Option Priorities</h2>
+            <button class="bios-setting boot-setting selected" data-options="Linux Live (x86)|UEFI: USB|SATA SSD|Disabled" data-help="Sets the first device used to start the system."><span>Boot Option #1</span><strong>Linux Live (x86)</strong></button>
+            <button class="bios-setting boot-setting" data-options="UEFI: USB|SATA SSD|Disabled|Linux Live (x86)" data-help="Sets the second device used to start the system."><span>Boot Option #2</span><strong>UEFI: USB</strong></button>
+            <button class="bios-setting boot-setting" data-options="SATA SSD|UEFI: USB|Disabled|Linux Live (x86)" data-help="Sets the third device used to start the system."><span>Boot Option #3</span><strong>SATA SSD</strong></button>
+            <button class="bios-setting boot-setting" data-options="Disabled|UEFI: USB|SATA SSD|Linux Live (x86)" data-help="Sets the fourth device used to start the system."><span>Boot Option #4</span><strong>Disabled</strong></button>
+            <div class="bios-divider"></div>
+            <button class="bios-setting" data-options="Enabled|Disabled" data-help="Displays the full-screen startup logo."><span>Full Screen LOGO Show</span><strong>Enabled</strong></button>
+            <button class="bios-setting" data-options="Disabled|Enabled" data-help="Enables compatibility support for legacy boot devices."><span>CSM Support</span><strong>Enabled</strong></button>
+          </section>
+
+          <section class="bios-page" data-page-content="peripherals" hidden>
+            <h2>Storage Configuration</h2>
+            <button class="bios-setting disk-item" data-disk-name="Linux Live (x86)" data-disk-url="vm/linux.iso" data-help="Select the disk image mounted in the virtual machine."><span>Boot Disk</span><strong>Linux Live (x86)</strong></button>
+            <label class="bios-range-label" for="ram-slider">Allocated Memory <strong id="ram-value">128 MB</strong></label>
+            <input id="ram-slider" type="range" min="16" max="1000" step="16" value="128">
+          </section>
+
+          <section class="bios-page" data-page-content="power" hidden>
+            <h2>Power Management</h2>
+            <label class="bios-range-label" for="hz-slider">Refresh Rate <strong id="hz-value">60.00 Hz</strong></label>
+            <input id="hz-slider" type="range" min="56.25" max="98.95" step="0.01" value="60.00">
+            <div class="bios-note">Changes apply to the virtual display.</div>
+          </section>
+
+          <section class="bios-page bios-exit-page" data-page-content="save-exit" hidden>
+            <h2>Save &amp; Exit Setup</h2>
+            <button class="bios-action primary" data-action="save-exit">Save &amp; Exit Setup</button>
+            <button class="bios-action" data-action="restart">Restart System</button>
+            <button class="bios-action" data-action="shutdown">Power Off</button>
+            <button class="bios-action" data-action="fullscreen">Toggle Full Screen</button>
+          </section>
+
+          <aside id="bios-help"><h3>Item Help</h3><p id="bios-help-text">Sets the first device used to start the system.</p></aside>
+        </main>
+
+        <!-- Virtual keyboard container (hidden by default) -->
+        <div id="virtual-kbd" class="virtual-kbd hidden" aria-hidden="true" role="application" aria-label="Virtual Keyboard"></div>
+
+        <footer id="bios-footer">
+          <span>↑↓ Select Item</span><span>Enter Select</span><span>+/- Change Option</span><span>F10 Save &amp; Exit</span><span>ESC Exit</span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Boot text stage -->
+    <div id="boot" class="stage hidden">
+      <div id="boot-text" aria-hidden="true">
+        <!-- Lines will be filled by script -->
+      </div>
+    </div>
+
+    <!-- Real x86 VM display -->
+    <div id="runtime" class="stage hidden">
+      <div id="vm-status">Initializing x86 virtual machine…</div>
+      <div id="screen_container" tabindex="0" aria-label="Linux virtual machine screen">
+        <div style="white-space:pre;font:14px monospace;line-height:14px"></div>
+        <canvas style="display:none"></canvas>
+      </div>
+      <div id="vm-bottom"><span>V86 · x86 Linux</span><span id="vm-progress">Loading emulator</span></div>
+    </div>
+  </div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
