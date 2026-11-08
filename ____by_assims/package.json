@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@novnc/novnc": "^1.7.0",
+    "ws": "^8.22.1"
+  }
+}

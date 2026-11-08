@@ -1,0 +1,12 @@
+{
+  "profiles": [
+    {
+      "id": "linux-live",
+      "name": "Linux Live (x86)",
+      "ramMb": 2048,
+      "diskName": "Linux Live (x86)",
+      "diskType": "iso",
+      "imageSource": "builtin"
+    }
+  ]
+}
