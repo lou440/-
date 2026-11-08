@@ -13,8 +13,48 @@
     <button id="restart-btn" title="Restart" aria-label="Restart">⟲ Restart</button>
     <!-- Reveal control shown on mobile after hiding restart; kept minimal and accessible -->
     <button id="restart-reveal" class="hidden" title="Show Restart" aria-label="Show Restart">⤴︎</button>
+    <input id="disk-image-file" class="global-file-input" type="file" accept=".iso,.img,application/octet-stream" aria-label="Select ISO or IMG image">
+    <section id="manager" class="stage" aria-label="Virtual machine manager">
+      <header class="manager-titlebar"><span>Oracle VM VirtualBox Manager</span><span class="manager-window-controls">− □ ×</span></header>
+      <nav class="manager-toolbar" aria-label="Virtual machine actions">
+        <button data-manager-action="start" title="Start selected virtual machine">▶ <span>Start</span></button>
+        <button data-manager-action="settings" title="Open virtual machine settings">⚙ <span>Settings</span></button>
+        <button data-manager-action="new" title="Create a virtual machine">＋ <span>New</span></button>
+        <button data-manager-action="import" title="Choose an ISO or IMG image">⇧ <span>Choose Image</span></button>
+        <button data-manager-action="remove" title="Remove selected virtual machine">－ <span>Remove</span></button>
+      </nav>
+      <div class="manager-workspace">
+        <aside class="manager-sidebar">
+          <div class="manager-sidebar-heading">TOOLS</div>
+          <button class="manager-tools-row" type="button">☷ <span>Tools</span></button>
+          <div class="manager-sidebar-heading manager-machines-heading">VIRTUAL MACHINES</div>
+          <div id="vm-list" role="listbox" aria-label="Virtual machines"></div>
+        </aside>
+        <main class="manager-details">
+          <div id="manager-empty" class="manager-empty" hidden>
+            <h1>Welcome to VirtualBox</h1>
+            <p>Create a virtual machine or choose an existing machine from the list.</p>
+          </div>
+          <div id="manager-selected">
+            <div class="manager-details-heading"><span class="manager-machine-icon">▣</span><div><h1 id="manager-vm-name"></h1><p>Powered Off</p></div></div>
+            <div class="manager-content">
+              <section class="manager-information">
+                <h2>Details</h2>
+                <dl><dt>System</dt><dd id="manager-image-name"></dd><dt>Memory</dt><dd id="manager-memory"></dd><dt>Boot device</dt><dd id="manager-boot-device"></dd></dl>
+              </section>
+              <div class="manager-primary-actions">
+                <button class="manager-start" data-manager-action="start">▶ Start</button>
+                <button data-manager-action="settings">⚙ Settings</button>
+                <button data-manager-action="import">Choose ISO / IMG</button>
+              </div>
+            </div>
+          </div>
+          <footer class="manager-status"><span>VirtualBox</span><span id="manager-status-text">Select a virtual machine</span></footer>
+        </main>
+      </div>
+    </section>
     <!-- Splash screen (shows provided asset) -->
-    <div id="splash" class="stage" tabindex="0">
+    <div id="splash" class="stage hidden" tabindex="0">
       <img src="/vbox-new-splash.webp" id="splash-img" alt="VirtualBox Splash">
     </div>
 
@@ -33,6 +73,7 @@
           <button class="bios-tab active" data-page="bios-features">BIOS Features</button>
           <button class="bios-tab" data-page="peripherals">Peripherals</button>
           <button class="bios-tab" data-page="power">Power Management</button>
+          <button class="bios-tab" data-page="vm-manager">Virtual Machines</button>
           <button class="bios-tab" data-page="save-exit">Save &amp; Exit</button>
         </nav>
 
@@ -65,7 +106,10 @@
 
           <section class="bios-page" data-page-content="peripherals" hidden>
             <h2>Storage Configuration</h2>
-            <button class="bios-setting disk-item" data-disk-name="Linux Live (x86)" data-disk-url="vm/linux.iso" data-help="Select the disk image mounted in the virtual machine."><span>Boot Disk</span><strong>Linux Live (x86)</strong></button>
+            <div class="bios-image-current"><span>Boot Image</span><strong id="disk-image-name">Linux Live (x86)</strong></div>
+            <label class="bios-file-label" for="disk-image-file">Select ISO / IMG</label>
+            <button class="bios-action" data-action="vm-default-image">Use built-in Linux ISO</button>
+            <p class="bios-note">ISO mounts as CD-ROM. IMG mounts as a hard disk. Local files must be selected again after reloading the page.</p>
             <label class="bios-range-label" for="ram-slider">Allocated Memory <strong id="ram-value">128 MB</strong></label>
             <input id="ram-slider" type="range" min="16" max="1000" step="16" value="128">
           </section>
@@ -75,6 +119,18 @@
             <label class="bios-range-label" for="hz-slider">Refresh Rate <strong id="hz-value">60.00 Hz</strong></label>
             <input id="hz-slider" type="range" min="56.25" max="98.95" step="0.01" value="60.00">
             <div class="bios-note">Changes apply to the virtual display.</div>
+          </section>
+
+          <section class="bios-page" data-page-content="vm-manager" hidden>
+            <h2>Virtual Machine Profiles</h2>
+            <label class="bios-field" for="vm-profile-select">Machine <select id="vm-profile-select"></select></label>
+            <label class="bios-field" for="vm-profile-name">Name <input id="vm-profile-name" type="text" maxlength="40"></label>
+            <label class="bios-field" for="vm-profile-ram">Memory <span><input id="vm-profile-ram" type="range" min="16" max="1000" step="16"><strong id="vm-profile-ram-value">128 MB</strong></span></label>
+            <div class="bios-manager-actions">
+              <button class="bios-action" data-action="vm-add">New</button>
+              <button class="bios-action" data-action="vm-save">Save</button>
+              <button class="bios-action" data-action="vm-delete">Delete</button>
+            </div>
           </section>
 
           <section class="bios-page bios-exit-page" data-page-content="save-exit" hidden>

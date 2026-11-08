@@ -31,6 +31,65 @@ body{
 
 /* Hidden helper */
 .hidden{display:none}
+.global-file-input{position:fixed;left:-10000px;width:1px;height:1px;opacity:0;overflow:hidden}
+
+/* Virtual machine manager */
+#manager{z-index:5;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;background:#f4f5f7;color:#252a31;font:13px/1.45 "Segoe UI",system-ui,sans-serif}
+.manager-titlebar{height:34px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#f8f8f9;border-bottom:1px solid #d5d8dc;color:#30343a;font-size:12px}
+.manager-window-controls{font-size:17px;color:#62676e;letter-spacing:8px}
+.manager-toolbar{height:66px;flex:none;display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border-bottom:1px solid #d5d8dc}
+.manager-toolbar button,.manager-primary-actions button{min-width:76px;min-height:44px;padding:5px 12px;border:1px solid transparent;border-radius:4px;background:transparent;color:#30363d;font:12px "Segoe UI",system-ui,sans-serif;cursor:pointer}
+.manager-toolbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.manager-toolbar button:first-child{color:#176a9b}
+.manager-toolbar button:hover,.manager-primary-actions button:hover{background:#e8f2f8;border-color:#bdd4e2}
+.manager-toolbar button span{font-size:11px}
+.manager-workspace{display:flex;flex:1;min-height:0}
+.manager-sidebar{flex:0 0 250px;overflow:auto;background:#f4f5f7;border-right:1px solid #d4d7db}
+.manager-sidebar-heading{padding:14px 14px 6px;color:#777e87;font-size:10px;font-weight:700;letter-spacing:.08em}
+.manager-tools-row,.manager-vm-row{width:100%;display:flex;align-items:center;gap:10px;min-height:42px;padding:8px 14px;border:0;text-align:left;color:#343a40;font:13px "Segoe UI",system-ui,sans-serif;cursor:pointer}
+.manager-tools-row{background:#e4e6e9}
+.manager-machines-heading{padding-top:18px}
+#vm-list{display:flex;flex-direction:column;gap:2px;padding:0 8px}
+.manager-vm-row{min-height:48px;border-radius:3px;background:transparent;overflow:hidden}
+.manager-vm-row:hover{background:#e8eaed}
+.manager-vm-row.selected{background:#dcebf5;color:#145c86;outline:1px solid #b5d4e5}
+.manager-vm-icon{flex:none;width:30px;height:24px;display:grid;place-items:center;border:1px solid #adb8c2;border-radius:3px;background:linear-gradient(145deg,#fff,#dfe7ed);color:#3a718f;font-size:17px}
+.manager-vm-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.manager-details{position:relative;display:flex;flex:1;flex-direction:column;min-width:0;background:#fff}
+.manager-details-heading{display:flex;align-items:center;gap:15px;min-height:92px;padding:18px 26px;border-bottom:1px solid #e1e3e6}
+.manager-machine-icon{width:48px;height:42px;display:grid;place-items:center;border:1px solid #b8c2ca;border-radius:5px;background:linear-gradient(145deg,#fafcfd,#e1e8ed);color:#417995;font-size:27px}
+.manager-details-heading h1,.manager-empty h1{font-size:21px;font-weight:400;color:#30363d}
+.manager-details-heading p{margin-top:4px;color:#77808a;font-size:12px}
+.manager-content{display:flex;justify-content:space-between;gap:32px;padding:24px 28px}
+.manager-information{min-width:0;flex:1}
+.manager-information h2{margin-bottom:13px;color:#434a52;font-size:14px;font-weight:600}
+.manager-information dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:9px 16px;font-size:12px}
+.manager-information dt{color:#747c85}
+.manager-information dd{overflow-wrap:anywhere;color:#343a40}
+.manager-primary-actions{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:150px}
+.manager-primary-actions button{border-color:#d6d9dd;background:#fff}
+.manager-primary-actions .manager-start{border-color:#1879aa;background:#1885bb;color:#fff;font-weight:600}
+.manager-primary-actions .manager-start:hover{background:#116d9e}
+.manager-empty{flex:1;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;text-align:center}
+.manager-empty p{max-width:400px;color:#707880}
+.manager-status{display:flex;justify-content:space-between;gap:16px;margin-top:auto;padding:7px 12px;border-top:1px solid #dfe1e4;color:#737b84;font-size:11px}
+.manager-active #restart-btn,.manager-active #restart-reveal{display:none}
+
+@media(max-width:640px){
+  .manager-titlebar{height:32px}
+  .manager-toolbar{height:58px;gap:2px;padding:5px}
+  .manager-toolbar button{min-width:58px;padding:4px}
+  .manager-workspace{flex-direction:column-reverse}
+  .manager-sidebar{flex:0 0 38%;max-height:42%;border-top:1px solid #d4d7db;border-right:0}
+  .manager-sidebar-heading{padding:8px 10px 4px}
+  .manager-machines-heading{padding-top:8px}
+  .manager-vm-row{min-height:40px;padding:6px 8px}
+  .manager-details-heading{min-height:70px;padding:12px 16px}
+  .manager-details-heading h1{font-size:18px}
+  .manager-content{flex-direction:column;gap:18px;padding:16px}
+  .manager-primary-actions{flex-direction:row;flex-wrap:wrap;min-width:0}
+  .manager-primary-actions button{flex:1}
+}
 
 /* Splash image — made larger so it fills more of the viewport */
 #splash-img{
@@ -102,6 +161,22 @@ body{
 .bios-range-label{display:flex;justify-content:space-between;gap:12px;margin:12px 0 6px;padding:10px 12px;background:#13304c;color:#ecf2f6}
 .bios-range-label strong{color:#a7d7f0;font-weight:400}
 .bios-page input[type="range"]{width:100%;accent-color:#58bce0}
+.bios-image-current{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:30px;padding:5px 12px;background:#13304c;color:#f2f5f7;font:13px monospace}
+.bios-image-current strong{overflow-wrap:anywhere;color:#a7d7f0;font-weight:400;text-align:right}
+.bios-file-label{align-self:flex-start;padding:8px 12px;border:1px solid #6886a1;background:#173654;color:#f0f4f7;font:13px monospace;cursor:pointer}
+.bios-file-label:hover{background:#1685ad;border-color:#68cde7}
+.bios-file-input{max-width:100%;color:#eaf1f6;font:12px monospace}
+.bios-file-input::file-selector-button{margin-right:10px;padding:7px 10px;border:1px solid #6886a1;background:#173654;color:#f0f4f7;font:12px monospace;cursor:pointer}
+.bios-file-input::file-selector-button:hover{background:#1685ad}
+.bios-field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;background:#13304c;color:#ecf2f6;font:13px monospace}
+.bios-field select,.bios-field input[type="text"]{min-width:0;padding:6px 8px;border:1px solid #6787a2;background:#0a1c32;color:#fff;font:13px monospace}
+.bios-field select{width:min(60%,280px)}
+.bios-field span{display:flex;align-items:center;gap:10px;min-width:min(65%,320px)}
+.bios-field input[type="range"]{flex:1;min-width:50px}
+.bios-field strong{flex:none;color:#a7d7f0;font-weight:400}
+.bios-manager-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.bios-manager-actions .bios-action{min-width:100px}
+.bios-manager-actions .bios-action:disabled{opacity:.45;cursor:not-allowed}
 .bios-exit-page{max-width:620px}
 .bios-action{min-height:36px;padding:8px 12px;border:1px solid #6886a1;background:#173654;color:#f0f4f7;text-align:left;font:13px monospace;cursor:pointer}
 .bios-action:hover,.bios-action.primary{background:#1685ad;border-color:#68cde7;color:#fff}
@@ -145,6 +220,9 @@ body{
   gap:8px;
   justify-content:center;
 }
+.kbd-vm-keys,.kbd-bios-keys{display:flex;flex-direction:column;gap:8px}
+.virtual-kbd.bios-mode .kbd-vm-keys,.virtual-kbd:not(.bios-mode) .kbd-bios-keys{display:none}
+.kbd-bios-keys .kbd-key{min-width:56px}
 .kbd-key{
   min-width:56px; /* larger keys */
   height:56px;
