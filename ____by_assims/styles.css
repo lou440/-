@@ -340,6 +340,8 @@ body{
 #vnc-screen canvas{max-width:100%;max-height:100%;image-rendering:pixelated}
 #vnc-screen>div{color:#ddd;max-width:100%;max-height:100%;overflow:auto}
 #vm-status{position:absolute;z-index:4;top:14px;left:18px;color:#9aa4ad;font:12px monospace}
-#vm-bottom{position:absolute;bottom:0;left:0;right:0;height:26px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;background:#111;color:#9aa4ad;font:11px monospace}
+#vm-bottom{position:absolute;bottom:0;left:0;right:0;height:48px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#111;color:#9aa4ad;font:11px monospace}
+.vm-kbd-toggle{flex:none;width:44px;height:44px;display:grid;place-items:center;border:1px solid #53616d;border-radius:4px;background:#1a2229;color:#edf4f8;font-size:20px;cursor:pointer;touch-action:manipulation}
+.vm-kbd-toggle[aria-pressed="true"],.vm-kbd-toggle:active{background:#176a8d;border-color:#64bddc}
 #runtime:fullscreen{padding-top:45px}
 #runtime:fullscreen #vnc-screen{width:100vw;height:calc(100vh - 72px)}

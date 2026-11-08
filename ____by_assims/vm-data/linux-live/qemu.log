@@ -1,1 +1,11 @@
 qemu-system-x86_64: -device usb-tablet: No 'usb-bus' bus found for device 'usb-tablet'
+[W][02002.675867] pw.conf      | [          conf.c: 1031 try_load_conf()] can't load config client.conf: No such file or directory
+[E][02002.675887] pw.conf      | [          conf.c: 1060 pw_conf_load_conf_for_context()] can't load config client.conf: No such file or directory
+[W][02120.487676] pw.conf      | [          conf.c: 1031 try_load_conf()] can't load config client.conf: No such file or directory
+[E][02120.487692] pw.conf      | [          conf.c: 1060 pw_conf_load_conf_for_context()] can't load config client.conf: No such file or directory
+qemu-system-x86_64: terminating on signal 15 from pid 20627 (sudo)
+[W][03133.465670] pw.conf      | [          conf.c: 1031 try_load_conf()] can't load config client.conf: No such file or directory
+[E][03133.465687] pw.conf      | [          conf.c: 1060 pw_conf_load_conf_for_context()] can't load config client.conf: No such file or directory
+qemu-system-x86_64: terminating on signal 15 from pid 28101 (sudo)
+[W][03152.165168] pw.conf      | [          conf.c: 1031 try_load_conf()] can't load config client.conf: No such file or directory
+[E][03152.165185] pw.conf      | [          conf.c: 1060 pw_conf_load_conf_for_context()] can't load config client.conf: No such file or directory

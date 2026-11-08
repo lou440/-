@@ -7,6 +7,14 @@
       "diskName": "Linux Live (x86)",
       "diskType": "iso",
       "imageSource": "builtin"
+    },
+    {
+      "id": "vm-d2cd090b-1b2e-451c-8862-ab2405f0e029",
+      "name": "Virtual Machine 2",
+      "ramMb": 1024,
+      "diskName": "No boot image",
+      "diskType": "iso",
+      "imageSource": "missing"
     }
   ]
 }

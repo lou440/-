@@ -144,9 +144,6 @@
           <aside id="bios-help"><h3>Item Help</h3><p id="bios-help-text">Sets the first device used to start the system.</p></aside>
         </main>
 
-        <!-- Virtual keyboard container (hidden by default) -->
-        <div id="virtual-kbd" class="virtual-kbd hidden" aria-hidden="true" role="application" aria-label="Virtual Keyboard"></div>
-
         <footer id="bios-footer">
           <span>↑↓ Select Item</span><span>Enter Select</span><span>+/- Change Option</span><span>F10 Save &amp; Exit</span><span>ESC Exit</span>
         </footer>
@@ -164,8 +161,9 @@
     <div id="runtime" class="stage hidden">
       <div id="vm-status">Initializing x86 virtual machine…</div>
       <div id="vnc-screen" tabindex="0" aria-label="QEMU virtual machine screen"></div>
-      <div id="vm-bottom"><span>V86 · x86 Linux</span><span id="vm-progress">Loading emulator</span></div>
+      <div id="vm-bottom"><span>QEMU/KVM · x86</span><span id="vm-progress">Loading VM console</span><button id="vm-kbd-toggle" class="vm-kbd-toggle" type="button" title="On-screen keyboard" aria-label="On-screen keyboard" aria-pressed="false">⌨</button></div>
     </div>
+    <div id="virtual-kbd" class="virtual-kbd hidden" aria-hidden="true" role="application" aria-label="Virtual Keyboard"></div>
   </div>
 
   <script src="script.js" type="module"></script>

@@ -153,6 +153,7 @@ async function startVM(profile) {
 
   const args = [
     '-name', profile.name,
+    '-runas', process.env.USER || 'codespace',
     '-machine', 'q35,accel=kvm:tcg',
     '-cpu', 'max',
     '-m', String(profile.ramMb),
